@@ -1,0 +1,13 @@
+!SESSION 2020-10-13 17:04:09.404 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_242
+java.vendor=Amazon.com Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_IN
+Framework arguments:  -product org.eclipse.epp.package.cpp.product -product org.eclipse.epp.package.cpp.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.cpp.product -data E:\workspace\opencv-cpp -product org.eclipse.epp.package.cpp.product
+
+This is a continuation of log file E:\workspace\opencv-cpp\.metadata\.bak_0.log
+Created Time: 2020-10-13 17:05:15.819
+
+!ENTRY org.eclipse.cdt.core 1 0 2020-10-13 17:05:15.819
+!MESSAGE Indexed 'OpenCVFindContours' (1 sources, 222 headers) in 2.73 sec: 43,497 declarations; 69,536 references; 0 unresolved inclusions; 14 syntax errors; 31 unresolved names (0.027%)

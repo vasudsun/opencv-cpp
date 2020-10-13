@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
 	{
 
 
-		 filename="E:/workspace/OpenCv/OpenCVFindContours/src/redball"+ std::to_string(i)+".png";
+		 filename="E:/workspace/opencv-cpp/OpenCVFindContours/src/redball"+ std::to_string(i)+".png";
 
 		 std::cout<<"FileName is "<<filename<<std::endl;
 

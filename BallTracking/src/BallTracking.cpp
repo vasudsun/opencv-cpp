@@ -14,10 +14,25 @@
 #include <opencv2/core/types.hpp>
 #include<string>
 int main(int argc, const char * argv[]) {
+	std:: string filename;
+	int pointsCounter=0;
+	std::string windowName = "BasketBall";
+	std::vector<cv::Point> trajectoryPath;
+	cv::Mat image;
+	for(int i=1;i<= 8;i++)
+	{
+
+
+		 filename="E:/workspace/opencv-cpp/OpenCVFindContours/src/redball"+ std::to_string(i)+".png";
+
+		 std::cout<<"FileName is "<<filename<<std::endl;
+
+
+
 	cv::RNG rng(12345);
-	std::string windowName = "BasketBall"; //Name of the window
+	//Name of the window
 	//cv::Mat image1 = cv::imread("E:/workspace/OpenCv/OpenCVFindContours/src/redBall1.png");
-	cv::Mat image = cv::imread("E:/workspace/OpenCv/OpenCVFindContours/src/redball6.png");
+	 image = cv::imread(filename);
 	if (image.empty())
 	{
 		std::cout << "Could not open or find the image" << std::endl;
@@ -35,7 +50,8 @@ int main(int argc, const char * argv[]) {
 	//cv::imshow("InImage", threshold);
 
 	cv::dilate(threshold, dilateoutput, cv::Mat(), cv::Point(-1, -1), 3, 1, 1);
-	//cv::imshow("DilatedImage", dilateoutput);
+	cv::imshow("DilatedImage", dilateoutput);
+
 
 	/****Finding contours start**********/
 
@@ -54,32 +70,45 @@ int main(int argc, const char * argv[]) {
 	//cv::imshow("DilatedImage", dilateoutput);
 	/**********Finding contour ends***************/
 
-	 std::vector<std::vector<cv::Point> > contours_poly( contours.size() );
-	    std::vector<cv::Rect> boundRect( contours.size() );
-	    std::vector<cv::Point2f>centers( contours.size() );
-	    std::vector<float>radius( contours.size() );
+	std::vector<std::vector<cv::Point> > contours_poly( contours.size() );
+	std::vector<cv::Rect> boundRect( contours.size() );
+	std::vector<cv::Point2f>centers( contours.size() );
+	std::vector<float>radius( contours.size() );
 
-	    cv::Scalar color = cv::Scalar( rng.uniform(0, 0), rng.uniform(0,255), rng.uniform(0,0) );
-	    for( size_t i = 0; i < contours.size(); i++ )
-	    {
-	        approxPolyDP( contours[i], contours_poly[i], 3, true );
-	        boundRect[i] = boundingRect( contours_poly[i] );
-	        minEnclosingCircle( contours_poly[i], centers[i], radius[i] );
+	cv::Scalar color = cv::Scalar( rng.uniform(0, 0), rng.uniform(0,255), rng.uniform(0,0) );
+	for( size_t i = 0; i < contours.size(); i++ )
+	{
+		approxPolyDP( contours[i], contours_poly[i], 3, true );
+		boundRect[i] = boundingRect( contours_poly[i] );
+		minEnclosingCircle( contours_poly[i], centers[i], radius[i] );
 
-	        //std::cout<<"x coordinate of the centre-->"<<centers[i].x<<"   y coordinate is-->  "<<centers[i].y<<"   radius is-->  "<<(int)radius[i]<<std::endl;
-	    	if((int)radius[i] > 12 && (int)radius[i] < 15 && centers[i].y < 580)
-	    	{
-	        cv::circle( image, centers[i], (int)radius[i], color, 2 );
-	        std::cout<<"x coordinate of the centre-->"<<centers[i].x<<"   y coordinate is-->  "<<centers[i].y<<"   radius is-->  "<<(int)radius[i]<<std::endl;
-	    	}
-	    }
+		//std::cout<<"x coordinate of the centre-->"<<centers[i].x<<"   y coordinate is-->  "<<centers[i].y<<"   radius is-->  "<<(int)radius[i]<<std::endl;
+		if((int)radius[i] > 12 && (int)radius[i] < 15 && centers[i].y < 580)
+		{
+			std::cout<<"x coordinate of the centre-->"<<centers[i].x<<"   y coordinate is-->  "<<centers[i].y<<"   radius is-->  "<<(int)radius[i]<<std::endl;
+			//cv::circle( image, centers[i], (int)radius[i], color, 2 );
+			trajectoryPath.push_back(centers[i]);//adding to the container
+			std::cout<<"new point has been added"<<std::endl;
+			pointsCounter++;
+		}
+	}
 
-	    cv::imshow("FinalOutput", image);
+	//cv::imshow("FinalOutput", image);
+
+	}
+//End of loop.Now we draw the line connecting the points
 
 
+std::cout<<"Total Number of points detected"<<pointsCounter<<std::endl;
 
+		cv::Scalar color(0, 255, 0); //Green
+	for(int i = 0; i < (pointsCounter-1); ++i)
+	{
 
+	   cv::line(image, trajectoryPath[i], trajectoryPath[i+1], color);
+	}
 
+	cv::imshow("FinalOutput", image);
 
 	cv::waitKey(0);
 	cv::destroyWindow(windowName); //destroy the created window
